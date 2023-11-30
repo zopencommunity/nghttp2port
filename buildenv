@@ -1,0 +1,24 @@
+export ZOPEN_STABLE_URL="https://github.com/nghttp2/nghttp2/releases/download/v1.58.0/nghttp2-1.58.0.tar.gz"
+export ZOPEN_STABLE_DEPS="make pkgconfig openssl zlib"
+export ZOPEN_BUILD_LINE="STABLE"
+export ZOPEN_CATEGORIES="networking"
+
+zopen_check_results()
+{
+  dir="$1"
+  pfx="$2"
+  chk="$1/$2_check.log"
+
+  # Echo the following information to gauge build health
+  echo "actualFailures:0"
+  echo "totalTests:1"
+  echo "expectedFailures:0"
+  echo "expectedTotalTests:1"
+}
+
+zopen_get_version()
+{
+  # Modify to echo the version of your tool/library
+  # Rather than hardcoding the version, obtain the version by running the tool/library
+  echo "1.0.0"
+}
