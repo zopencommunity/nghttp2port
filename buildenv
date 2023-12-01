@@ -2,7 +2,12 @@ export ZOPEN_STABLE_URL="https://github.com/nghttp2/nghttp2/releases/download/v1
 export ZOPEN_STABLE_DEPS="make pkgconfig openssl zlib"
 export ZOPEN_BUILD_LINE="STABLE"
 export ZOPEN_CATEGORIES="networking"
+export ZOPEN_COMP="clang"
 
+#
+# Tests _are_ being run, but right now because
+# it is just the library, the number of tests is 0
+#
 zopen_check_results()
 {
   dir="$1"
@@ -18,7 +23,28 @@ zopen_check_results()
 
 zopen_get_version()
 {
-  # Modify to echo the version of your tool/library
-  # Rather than hardcoding the version, obtain the version by running the tool/library
-  echo "1.0.0"
+  # Create C program
+  for tmp in "${TMPDIR}" "${TMP}" /tmp; do
+    if [ ! -z ${tmp} ] && [ -d ${tmp} ]; then
+      break
+    fi
+  done
+
+  nghttp2tmp="${tmp}/nghttp2$$"
+  nghttp2c="${nghttp2tmp}/nghttp2ver.c"
+  nghttp2ver="${nghttp2tmp}/nghttp2ver"
+  mkdir -p "${nghttp2tmp}" || return 8
+  cat >"${nghttp2c}" <<ZZ || return 8
+#include <nghttp2/nghttp2.h>
+#include <stdio.h>
+
+int main() {
+  printf("%s\n", nghttp2_version(0)->version_str);
+  return 0;
+}
+ZZ
+  clang -L./lib/.libs/ -I./lib/includes -fzos-le-char-mode=ascii -o"$nghttp2ver" "$nghttp2c" -lnghttp2 || return 8
+  "$nghttp2ver"
+
+  rm -rf "${nghttp2tmp}"
 }
