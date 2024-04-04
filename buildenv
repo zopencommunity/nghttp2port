@@ -1,5 +1,5 @@
 # bump: nghttp2-version /NGHTTP2_VERSION="(.*)"/ https://github.com/nghttp2/nghttp2.git|semver:*
-NGHTTP2_VERSION="1.59.0"
+NGHTTP2_VERSION="1.61.0"
 
 export ZOPEN_STABLE_URL="https://github.com/nghttp2/nghttp2/releases/download/v${NGHTTP2_VERSION}/nghttp2-${NGHTTP2_VERSION}.tar.gz"
 export ZOPEN_STABLE_DEPS="make pkgconfig openssl zlib"
